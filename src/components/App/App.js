@@ -17,20 +17,27 @@ export function App() {
 
   const [filter, setFilter] = useState('');
 
-  const handleAddContact = ({ name, number }) => {
+  const handleAddContact = evt => {
+    evt.preventDefault();
+
     const doubleContact = contacts.find(
-      contact => name.toLowerCase() === contact.name.toLowerCase(),
+      contact =>
+        evt.target.elements.name.value.toLowerCase() ===
+        contact.name.toLowerCase(),
     );
 
-    if (doubleContact) return alert(`${name} is alredy in contacts`);
+    if (doubleContact)
+      return alert(`${doubleContact.name} is alredy in contacts`);
 
     const newContact = {
       id: uuidv4(),
-      name,
-      number,
+      name: evt.target.elements.name.value,
+      number: evt.target.elements.number.value,
     };
 
     setContacts([...contacts, newContact]);
+
+    evt.target.reset();
   };
 
   const handleFilterContact = evt => {

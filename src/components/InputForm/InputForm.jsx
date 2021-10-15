@@ -3,41 +3,11 @@ import { useLocalStorage } from '../hooks/useLocalStoraje';
 import s from './InputForm.module.css';
 
 export function InputForm({ addContact }) {
-  const [name, setName] = useLocalStorage('name', '');
-  const [number, setNumber] = useLocalStorage('number', '');
-
-  const inputChange = evt => {
-    const { name, value } = evt.target;
-
-    switch (name) {
-      case 'name':
-        setName(value);
-        break;
-
-      case 'number':
-        setNumber(value);
-        break;
-
-      default:
-        break;
-    }
-  };
-
-  const handleFormSubmit = evt => {
-    evt.preventDefault();
-
-    addContact({ name, number });
-    setName('');
-    setNumber('');
-    evt.target.reset();
-  };
-
   return (
-    <form onSubmit={handleFormSubmit}>
+    <form onSubmit={addContact}>
       <label>
         Name
         <input
-          onChange={inputChange}
           type="text"
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -49,7 +19,6 @@ export function InputForm({ addContact }) {
       <label>
         Number
         <input
-          onChange={inputChange}
           type="tel"
           name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
