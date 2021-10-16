@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import contactActions from '../redux/actions';
 import { useLocalStorage } from '../hooks/useLocalStoraje';
 import s from './InputForm.module.css';
 
-export function InputForm({ addContact }) {
+function InputForm({ addContact }) {
   return (
     <form onSubmit={addContact}>
       <label>
@@ -31,6 +33,12 @@ export function InputForm({ addContact }) {
     </form>
   );
 }
+
+const mapDispatchToProps = dispatch => ({
+  onsubmit: evt => dispatch(contactActions.addContact(evt.target)),
+});
+
+export default connect(null, mapDispatchToProps)(InputForm);
 
 InputForm.propTypes = {
   addContact: PropTypes.func.isRequired,
