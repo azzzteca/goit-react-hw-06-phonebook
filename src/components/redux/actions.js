@@ -1,13 +1,22 @@
-import * as types from './types';
 import { v4 as uuidv4 } from 'uuid';
 
-const addContact = value => ({
-  type: types.ADD,
+export const addContact = ({ name, number }) => ({
+  type: 'contacts/add',
   payload: {
     id: uuidv4(),
-    name: value.name,
-    number: value.number,
+    name,
+    number,
   },
 });
 
-export default { addContact };
+export const deleteContact = id => ({
+  type: 'contacts/delete',
+  payload: {
+    id,
+  },
+});
+
+export const filterContact = value => ({
+  type: 'contacts/filter',
+  payload: { value },
+});

@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import * as actions from '../redux/actions';
 import s from './Filter.module.css';
 
-export function Filter({ contacts, filterContact }) {
+function Filter({ filterContact }) {
   return (
     <label>
       Find contacts by name
@@ -9,6 +11,12 @@ export function Filter({ contacts, filterContact }) {
     </label>
   );
 }
+
+const mapDispatchToProps = dispatch => ({
+  filterContact: evt => dispatch(actions.filterContact(evt.target.value)),
+});
+
+export default connect(null, mapDispatchToProps)(Filter);
 
 Filter.propTypes = {
   info: PropTypes.shape({

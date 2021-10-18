@@ -1,4 +1,7 @@
-export function ContactListItem({ contact, deleteContact }) {
+import { connect } from 'react-redux';
+import * as actions from '../redux/actions';
+
+function ContactListItem({ contact, deleteContact }) {
   return (
     <>
       {contact.name} {contact.number}
@@ -8,3 +11,9 @@ export function ContactListItem({ contact, deleteContact }) {
     </>
   );
 }
+
+const mapDispatchToProps = dispatch => ({
+  deleteContact: evt => dispatch(actions.deleteContact(evt.target.id)),
+});
+
+export default connect(null, mapDispatchToProps)(ContactListItem);

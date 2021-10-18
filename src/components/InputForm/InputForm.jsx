@@ -1,15 +1,45 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import contactActions from '../redux/actions';
+import * as actions from '../redux/actions';
 import { useLocalStorage } from '../hooks/useLocalStoraje';
 import s from './InputForm.module.css';
 
 function InputForm({ addContact }) {
+  const [name, setName] = useLocalStorage('name', '');
+  const [number, setNumber] = useLocalStorage('number', '');
+
+  const inputChange = evt => {
+    const { name, value } = evt.target;
+
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+
+      case 'number':
+        setNumber(value);
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const handleFormSubmit = evt => {
+    evt.preventDefault();
+
+    addContact({ name, number });
+    setName('');
+    setNumber('');
+    evt.target.reset();
+  };
+
   return (
-    <form onSubmit={addContact}>
+    <form onSubmit={handleFormSubmit}>
       <label>
         Name
         <input
+          onChange={inputChange}
           type="text"
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -21,6 +51,7 @@ function InputForm({ addContact }) {
       <label>
         Number
         <input
+          onChange={inputChange}
           type="tel"
           name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -34,12 +65,13 @@ function InputForm({ addContact }) {
   );
 }
 
-const mapDispatchToProps = dispatch => ({
-  onsubmit: evt => dispatch(contactActions.addContact(evt.target)),
-});
-
-export default connect(null, mapDispatchToProps)(InputForm);
-
 InputForm.propTypes = {
   addContact: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = dispatch => ({
+  addContact: ({ name, number }) =>
+    dispatch(actions.addContact({ name, number })),
+});
+
+export default connect(null, mapDispatchToProps)(InputForm);
