@@ -12,12 +12,10 @@ export const addContact = ({ name, number }) => ({
 
 export const deleteContact = id => ({
   type: types.DELETE,
-  payload: {
-    id,
-  },
+  payload: id,
 });
 
-export const filterContact = value => ({
+export const filterContact = text => ({
   type: types.FILTER,
-  payload: { value },
+  payload: text,
 });

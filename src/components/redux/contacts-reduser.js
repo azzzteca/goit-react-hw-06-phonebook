@@ -16,7 +16,7 @@ const itemsReducer = (state = itemsInitialState, { type, payload }) => {
 
     case types.DELETE:
       const stateWithoutDeletedContacts = state.filter(
-        contact => contact.id !== payload.id,
+        contact => contact.id !== payload,
       );
 
       return stateWithoutDeletedContacts;
@@ -29,9 +29,7 @@ const itemsReducer = (state = itemsInitialState, { type, payload }) => {
 const filterReducer = (state = '', { type, payload }) => {
   switch (type) {
     case types.FILTER:
-      return {
-        filter: payload.value.toLowerCase(),
-      };
+      return payload.toLowerCase();
 
     default:
       return state;
