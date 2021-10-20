@@ -12,7 +12,22 @@ const itemsInitialState = [
 const itemsReducer = (state = itemsInitialState, { type, payload }) => {
   switch (type) {
     case types.ADD:
-      return [...state, payload];
+      const doubleContact = state.find(
+        contact => payload.name.toLowerCase() === contact.name.toLowerCase(),
+      );
+
+      if (doubleContact) {
+        alert(`${payload.name} is alredy in contacts`);
+        return state;
+      }
+
+      const newContact = {
+        id: uuidv4(),
+        name: payload.name,
+        number: payload.number,
+      };
+
+      return [...state, newContact];
 
     case types.DELETE:
       const stateWithoutDeletedContacts = state.filter(
